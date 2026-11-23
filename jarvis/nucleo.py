@@ -349,6 +349,20 @@ class Nucleo:
         pc.musica_anterior()
         return "Anterior."
 
+    def _i_youtube_play(self, it):
+        consulta = it.datos.get("consulta", "").strip()
+        titulo = pc.reproducir_youtube(consulta)
+        if titulo is None:
+            return f"No pude elegir un video, te abro la búsqueda de {consulta}."
+        return f"Pongo {titulo}."
+
+    def _i_youtube_music(self, it):
+        consulta = it.datos.get("consulta", "").strip()
+        titulo = pc.reproducir_youtube_music(consulta)
+        if titulo is None:
+            return f"Te abro YouTube Music con {consulta}."
+        return f"Pongo {titulo} en YouTube Music. Después sigue con temas parecidos."
+
     def _i_spotify_buscar(self, it):
         consulta = it.datos.get("consulta", "").strip()
         try:

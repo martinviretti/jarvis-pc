@@ -198,6 +198,50 @@ def buscar_spotify(consulta: str) -> None:
     os.startfile("spotify:search:" + urllib.parse.quote(consulta))  # noqa: S606
 
 
+_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
+
+
+def primer_video(consulta: str) -> tuple[str, str] | None:
+    """Primer resultado de YouTube para la búsqueda: (id, título). Sin cuenta ni clave."""
+    import re
+
+    import requests
+
+    try:
+        r = requests.get("https://www.youtube.com/results", params={"search_query": consulta},
+                         headers={"User-Agent": _UA, "Accept-Language": "es-AR,es;q=0.9"},
+                         cookies={"CONSENT": "YES+1"}, timeout=8)
+        r.raise_for_status()
+    except Exception as e:  # noqa: BLE001
+        log.warning("No pude buscar en YouTube: %s", e)
+        return None
+    m = re.search(r'"videoRenderer":\{"videoId":"([\w-]{11})".{0,800}?"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"', r.text)
+    if m:
+        return m[1], m[2].encode().decode("unicode_escape", errors="ignore") if "\\u" in m[2] else m[2]
+    m = re.search(r'"videoId":"([\w-]{11})"', r.text)
+    return (m[1], "") if m else None
+
+
+def reproducir_youtube(consulta: str) -> str | None:
+    """Abre y reproduce el primer video. Devuelve el título (o None si no encontró nada)."""
+    v = primer_video(consulta)
+    if v is None:
+        buscar_youtube(consulta)
+        return None
+    webbrowser.open(f"https://www.youtube.com/watch?v={v[0]}")
+    return v[1] or consulta
+
+
+def reproducir_youtube_music(consulta: str) -> str | None:
+    """Pone el tema en YouTube Music; después sigue sola con temas parecidos (radio)."""
+    v = primer_video(consulta)
+    if v is None:
+        webbrowser.open("https://music.youtube.com/search?q=" + urllib.parse.quote_plus(consulta))
+        return None
+    webbrowser.open(f"https://music.youtube.com/watch?v={v[0]}")
+    return v[1] or consulta
+
+
 def buscar_youtube(consulta: str) -> None:
     webbrowser.open("https://www.youtube.com/results?search_query=" + urllib.parse.quote_plus(consulta))
 

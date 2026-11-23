@@ -165,13 +165,29 @@ def interpretar(texto_original: str) -> Intent:
     if _hay(t, r"^(?:silencio|mute|mutea|mutear|silencia|silenciar|silencia el sonido|callate todo)$|\b(?:silencia|mutea)(?:r)? (?:el )?(?:sonido|audio|volumen|la pc)\b"):
         return I("silenciar", valor=True)
 
-    # ---- YouTube
-    m = _hay(t, r"\b(?:busca|buscame|buscar|buscan|busque|pone|pon|poneme|mostrame|abri)\s+(?:en\s+)?(?:el\s+)?youtube\s+(.+)$") or \
-        _hay(t, r"\b(?:busca|buscame|buscar|pone|poneme)\s+(.+?)\s+en\s+youtube$") or \
-        _hay(t, r"^youtube\s+(.+)$")
+    # ---- YouTube Music: "poné música de Duki", "poné Givenchy en YouTube Music", "quiero escuchar Bizarrap"
+    m = _hay(t, r"^(?:pone|pon|poneme|reproduci|busca|buscame)\s+(.+?)\s+en\s+(?:youtube music|music)$") or \
+        _hay(t, r"^(?:pone|pon|poneme|reproduci)\s+(?:en\s+)?(?:youtube music|music)\s+(.+)$") or \
+        _hay(t, r"^(?:pone|pon|poneme|reproduci)\s+(?:musica|temas|canciones|algo|un tema|una cancion) (?:de|del|de la|de los)\s+(.+)$") or \
+        _hay(t, r"^(?:pone|pon|poneme|reproduci)\s+(?:el tema|la cancion)\s+(.+)$") or \
+        _hay(t, r"^(?:quiero escuchar|escuchemos|pasame musica de)\s+(.+)$")
+    if m and "spotify" not in t:
+        consulta = re.sub(r"^(?:a |al |el |la |los |las )", "", m[1].strip())
+        if consulta and consulta not in ("musica", "algo"):
+            return I("youtube_music", consulta=consulta)
+
+    # ---- YouTube: "buscá" muestra resultados; "poné" reproduce el primero
+    m = _hay(t, r"\b(?:busca|buscame|buscar|buscan|busque)\s+(?:en\s+)?(?:el\s+)?youtube\s+(.+)$") or \
+        _hay(t, r"\b(?:busca|buscame|buscar)\s+(.+?)\s+en\s+youtube$")
     if m:
         consulta = re.sub(r"^(?:a |el |la |que |de |sobre )", "", m[1].strip())
         return I("youtube", consulta=consulta)
+    m = _hay(t, r"\b(?:pone|pon|poneme|reproduci|mostrame|abri|quiero ver)\s+(?:en\s+)?(?:el\s+)?youtube\s+(.+)$") or \
+        _hay(t, r"\b(?:pone|pon|poneme|reproduci|mostrame|quiero ver)\s+(.+?)\s+en\s+youtube$") or \
+        _hay(t, r"^youtube\s+(.+)$")
+    if m:
+        consulta = re.sub(r"^(?:a |el |la |que |de |sobre )", "", m[1].strip())
+        return I("youtube_play", consulta=consulta)
 
     # ---- Spotify: buscar un artista, tema o playlist ("poné Duki en Spotify")
     m = _hay(t, r"^(?:pone|pon|poneme|busca|buscame|buscar|reproduci|escuchar|quiero escuchar)\s+(.+?)\s+(?:en|de|por)\s+spotify$") or \

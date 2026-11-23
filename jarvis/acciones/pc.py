@@ -193,6 +193,11 @@ async def _props(sesion):
 
 # ---------------------------------------------------------------- web y apps
 
+def buscar_spotify(consulta: str) -> None:
+    """Abre la app de Spotify directamente en la búsqueda (no necesita cuenta Premium ni API)."""
+    os.startfile("spotify:search:" + urllib.parse.quote(consulta))  # noqa: S606
+
+
 def buscar_youtube(consulta: str) -> None:
     webbrowser.open("https://www.youtube.com/results?search_query=" + urllib.parse.quote_plus(consulta))
 

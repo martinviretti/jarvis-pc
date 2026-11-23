@@ -173,6 +173,15 @@ def interpretar(texto_original: str) -> Intent:
         consulta = re.sub(r"^(?:a |el |la |que |de |sobre )", "", m[1].strip())
         return I("youtube", consulta=consulta)
 
+    # ---- Spotify: buscar un artista, tema o playlist ("poné Duki en Spotify")
+    m = _hay(t, r"^(?:pone|pon|poneme|busca|buscame|buscar|reproduci|escuchar|quiero escuchar)\s+(.+?)\s+(?:en|de|por)\s+spotify$") or \
+        _hay(t, r"^(?:busca|buscame|buscar|abri)\s+(?:en\s+)?spotify\s+(.+)$") or \
+        _hay(t, r"^spotify\s+(.+)$")
+    if m:
+        consulta = re.sub(r"^(?:a |al |el |la |los |las |algo de |musica de |temas de |canciones de |la cancion |el tema )", "", m[1].strip())
+        if consulta and consulta not in ("musica", "algo", "un tema", "temas"):
+            return I("spotify_buscar", consulta=consulta)
+
     # ---- música
     if _hay(t, r"\bque (?:tema|cancion|musica) (?:es|esta sonando|suena)\b|\bque esta sonando\b"):
         return I("que_suena")

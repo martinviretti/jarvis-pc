@@ -17,6 +17,7 @@ Asistente de voz liviano para Windows. Se le habla desde el casco ("Hey Jarvis" 
 | Calendario (Google) | "agregá dentista al calendario el jueves a las 4", "qué tengo hoy", "qué tengo mañana" |
 | Tareas (Google Tasks) | "anotá estudiar matemática", "agregá comprar cartulina a la lista", "qué tengo anotado", "tachá estudiar matemática" |
 | Música | "poné música", "pausá", "pasá el tema", "tema anterior", "qué tema es este" |
+| Spotify | "poné Duki en Spotify", "buscá en Spotify lo-fi para estudiar" (abre la búsqueda en la app; elegís qué poner) |
 | YouTube | "buscá en YouTube cómo hacer slime" |
 | Apps | "abrí ChatGPT", "abrí Discord", "abrí Minecraft" (las que estén en la lista) |
 | Volumen | "subí el volumen", "bajá el volumen", "volumen al 30", "silencio" |

@@ -349,6 +349,14 @@ class Nucleo:
         pc.musica_anterior()
         return "Anterior."
 
+    def _i_spotify_buscar(self, it):
+        consulta = it.datos.get("consulta", "").strip()
+        try:
+            pc.buscar_spotify(consulta)
+        except OSError:
+            return Respuesta("No encontré Spotify instalado.", sonido_error=True)
+        return f"Abrí Spotify con {consulta}. Elegí qué poner."
+
     def _i_que_suena(self, it):
         return pc.que_suena() or "No sé qué está sonando."
 

@@ -1,0 +1,14 @@
+.venv/
+_dev/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+# datos personales: nunca al repo
+datos/
+google_credenciales.json
+google_token.json
+*.log
+_modelos/

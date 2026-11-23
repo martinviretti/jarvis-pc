@@ -1,0 +1,59 @@
+# Configuración de Jarvis.
+# Después de editar este archivo, reiniciá Jarvis: clic derecho en el ícono de la bandeja, Salir, y volvé a abrirlo.
+
+# Parte del nombre del micrófono que Jarvis tiene que usar. Con "HyperX" alcanza.
+# Si no lo encuentra, usa el micrófono predeterminado de Windows.
+microfono: "HyperX"
+
+# Tecla que hay que mantener apretada para hablar.
+# Puede ser una tecla ("f9", "f10", "pause", "scroll_lock") o un botón lateral del mouse ("mouse_x1", "mouse_x2").
+tecla_hablar: "f9"
+
+# "Hey Jarvis": true para activarlo con la voz, false para usar solo la tecla.
+hey_jarvis: true
+# Entre 0.3 (se activa con poco, más falsas alarmas) y 0.8 (más exigente).
+sensibilidad_hey_jarvis: 0.5
+
+# Voz y velocidad. Con 1.0 habla normal; con 0.9, un poco más rápido.
+voz: "es_AR-daniela-high"
+velocidad_voz: 1.0
+# Volumen de las respuestas, de 0.1 a 1.0. Sale por el audio que esté activo en Windows (casco o monitor).
+volumen_respuestas: 0.9
+
+# Ciudad para el clima. Por defecto es San Fernando, Buenos Aires.
+ciudad:
+  nombre: "San Fernando"
+  lat: -34.44
+  lon: -58.56
+
+# Apps que Jarvis puede abrir: "nombre que se dice": qué abrir.
+# Puede ser una ruta a un .exe o un acceso directo (.lnk), una página web, o un enlace de app (steam://, discord://, spotify:).
+# Truco: para un juego de Steam, botón derecho en el juego > Administrar > Crear acceso directo en el escritorio,
+# y acá poné la ruta de ese acceso directo.
+apps:
+  chatgpt: "https://chatgpt.com"
+  youtube: "https://www.youtube.com"
+  spotify: "spotify:"
+  discord: "discord://"
+  steam: "steam://open/main"
+  # minecraft: 'C:\Users\TU-USUARIO\Desktop\Minecraft.lnk'
+
+# Luz de la pieza. tipo: ninguna | wiz | shelly
+# ip: la dirección de la lámpara o enchufe en la red de la casa (conviene reservarla en el router).
+luz:
+  tipo: "ninguna"
+  ip: ""
+
+# Google Calendar y Google Tasks, sincronizados con el celular.
+# Se activa corriendo "Configurar Google" desde el menú de inicio, o: jarvis-configurar --google
+google:
+  activado: false
+  calendario: "primary"
+  # Minutos de anticipación del aviso de los eventos que agrega Jarvis.
+  aviso_minutos: 30
+
+# Modo juego: con true, "Hey Jarvis" queda apagado y solo funciona la tecla.
+modo_juego: false
+
+# Guardar en esta PC un historial de lo que se pidió (no se sube a ningún lado).
+historial: true
